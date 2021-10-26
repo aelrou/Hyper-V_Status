@@ -1,8 +1,7 @@
 # Set-ExecutionPolicy RemoteSigned
 # Unblock-File -Path "C:\HyperV_Status.ps1"
 # "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -File "C:\HyperV_Status.ps1"
-Param ([string]$VMID)
-Param ([string]$Status)
+Param ([string]$VMID, [string]$Status)
 <#  
     $LogPath is where log files are saved.
 #>  
@@ -48,20 +47,20 @@ try {
 
     $State = $(Get-VM -Id $VMID).State
     if ($(Get-VM -Id $VMID).State -eq "Paused") {
-        LogWrite "$($VMName) state is $($State). Sending command to resume."
-        Start-VM -Name $VMName -ErrorAction Resume
+        LogWrite "$($VMName) state is $($State). Sending command Resume-VM"
+        Resume-VM -Name $VMName -ErrorAction Stop
     }
 
     $State = $(Get-VM -Id $VMID).State
     if ($(Get-VM -Id $VMID).State -eq "Off") {
-        LogWrite "$($VMName) state is $($State). Sending command to start."
-        Start-VM -Name $VMName -ErrorAction Start
+        LogWrite "$($VMName) state is $($State). Sending command Start-VM"
+        Start-VM -Name $VMName -ErrorAction Stop
     }
 
     $State = $(Get-VM -Id $VMID).State
     if ($(Get-VM -Id $VMID).State -eq "Saved") {
-        LogWrite "$($VMName) state is $($State). Sending command to start."
-        Start-VM -Name $VMName -ErrorAction Start
+        LogWrite "$($VMName) state is $($State). Sending command Start-VM"
+        Start-VM -Name $VMName -ErrorAction Stop
     }
 
     $State = $(Get-VM -Id $VMID).State
